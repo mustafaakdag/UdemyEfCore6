@@ -1,10 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using EfCore.DatabaseFirstByScaffold.Models;
 using Microsoft.EntityFrameworkCore;
-using UdemyEfCore.DatabaseFirst.DAL;
 
-DbContextInitializer.Build();
-
-using (var _context = new AppDbContext(DbContextInitializer.OptionsBuilder.Options))
+using (var _context = new UdemyEfCoreDatabaseFirstDbContext())
 {
     var products = await _context.Products.ToListAsync();
     products.ForEach(p =>

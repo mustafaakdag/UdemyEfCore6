@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,18 @@ namespace UdemyEfCore.DatabaseFirst.DAL
     public class AppDbContext:DbContext
     {
         public DbSet<Product> Products { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AppDbContext()
         {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=UdemyEfCoreDatabaseFirstDb;User ID=sa;Password=1234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
         }
 
+        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
+        {
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(DbContextInitializer.Configuration.GetConnectionString("SqlCon"));
+        }
     }
 }
